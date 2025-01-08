@@ -1,25 +1,48 @@
 package me.shinsunyoung.springbootdeveloper.service;
 
+
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import me.shinsunyoung.springbootdeveloper.domain.Article;
 import me.shinsunyoung.springbootdeveloper.dto.AddArticleRequest;
+import me.shinsunyoung.springbootdeveloper.dto.UpdateArticleRequest;
 import me.shinsunyoung.springbootdeveloper.repository.BlogRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
-//이건 dto까지 만들었으니가 아마도 만드는 함수를 정의할듯
 public class BlogService {
+
     private final BlogRepository blogRepository;
-    // jpaRepository에서 제공한 save를 Addariclerequest클래스에 저장된 값들을 데이터베이스로 옮겨줌
-    public Article save(AddArticleRequest addArticleRequest) {
-        return blogRepository.save(addArticleRequest.toEntity());
+
+    public Article save(AddArticleRequest request) {
+        return blogRepository.save(request.toEntity());
     }
 
-    public List<Article> finaALl(){
+    public List<Article> findAll(){
         return blogRepository.findAll();
     }
+
+    public Article findById(Long id) {
+        return blogRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("not found :" + id));
+    }
+
+    public void delete(Long id) {
+        blogRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Article update(Long id, UpdateArticleRequest request) {
+        Article article = blogRepository.findById(id)
+                .orElseThrow(()->new IllegalArgumentException("not found :" + id));
+
+
+        article.update(request.getTitle(), request.getContent());
+        return article;
+    }
+
 
 }
