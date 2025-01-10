@@ -32,6 +32,12 @@ dependencies {
 
     //타임리프
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    //스프링 시큐리티 스타터, 타임리프에서 시큐리티 의존성, 시큐리티 테스트 의존성
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    testImplementation 'org.springframework.security:spring-security-test'
+
 }
 
 tasks.named('test') {
