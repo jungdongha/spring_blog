@@ -23,4 +23,8 @@ public class UserService {
         // 저장된 User 엔티티의 ID 반환
         return userRepository.save(user).getId();
     }
+
+    public User findById(Long userId) {
+        return userRepository.findById(userId).orElseThrow((() -> new IllegalArgumentException("Undexpected user")));
+    }
 }
