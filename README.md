@@ -8,4 +8,4 @@
 - Thymeleaf
 - Spring security
 - OAuth2
-- 
+- jwt
